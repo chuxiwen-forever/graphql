@@ -1,18 +1,10 @@
-package com.liu.type;
+package com.liu.vo;
 
 import lombok.Data;
 
-/**
- * input EventInput {
- * title: String!
- * description: String!
- * price: Float!
- * date: String!
- * }
- */
-
 @Data
-public class EventInput {
+public class EventVO {
+    private String id;
     private String title;
     private String description;
     // 注意：GraphQL.Float => Java.Double

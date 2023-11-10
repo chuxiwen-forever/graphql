@@ -1,9 +1,9 @@
 package com.liu.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.liu.entity.EventEntity;
+import com.liu.DO.EventDO;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface EventEntityMapper extends BaseMapper<EventEntity> {
+public interface EventMapper extends BaseMapper<EventDO> {
 }

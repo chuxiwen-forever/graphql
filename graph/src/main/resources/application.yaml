@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    driver-class-name:
+    url: jdbc:postgresql://localhost:5432/event
+    username: admin
+    password: 123456

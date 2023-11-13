@@ -22,5 +22,5 @@ public class EventDO {
 
     private Date date;
 
-    private Integer creatorId;
+    private int creatorId;
 }

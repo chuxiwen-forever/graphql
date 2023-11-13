@@ -21,4 +21,5 @@ public class Event {
     private String description;
     private Double price;
     private Date date;
+    private Integer creatorId;
 }

@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 @DgsComponent
-public class EventDataDFetcher {
+public class EventFetcher {
     @Autowired
     private EventService eventService;
 

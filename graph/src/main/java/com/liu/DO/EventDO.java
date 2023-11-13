@@ -7,7 +7,7 @@ import lombok.Data;
 
 import java.util.Date;
 
-@TableName(value = "event")
+@TableName(value = "tb_event")
 @Data
 public class EventDO {
 
@@ -21,4 +21,6 @@ public class EventDO {
     private Double price;
 
     private Date date;
+
+    private Integer creatorId;
 }

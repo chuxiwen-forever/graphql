@@ -36,4 +36,14 @@ public class UserRepositoryImpl implements UserRepository {
         }
         return userConverter.toUser(userDO);
     }
+
+    @Override
+    public User addOneUser(User user) {
+        if (ObjectUtil.isEmpty(user)) {
+            throw new RuntimeException("UserRepository.addOneUser => user is empty");
+        }
+        UserDO userDO = userConverter.toUserDO(user);
+        userMapper.insert(userDO);
+        return userConverter.toUser(userDO);
+    }
 }

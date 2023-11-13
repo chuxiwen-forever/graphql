@@ -1,6 +1,7 @@
 package com.liu.service;
 
 import com.liu.param.UserInput;
+import com.liu.vo.UserVO;
 
 public interface UserService {
 
@@ -10,4 +11,11 @@ public interface UserService {
      * @return 是否存在该用户
      */
     boolean checkIfExistUser(UserInput userInput);
+
+    /**
+     * 添加一名用户
+     * @param userInput 前端输入
+     * @return 用户vo
+     */
+    UserVO addUser(UserInput userInput);
 }

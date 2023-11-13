@@ -14,10 +14,11 @@ public class UserFetcher {
     @Autowired
     private UserService userService;
 
+
     @DgsMutation
     public UserVO createUser(@InputArgument(name = "userInput") UserInput userInput) {
         ensureUserNotExists(userInput);
-        return null;
+        return userService.addUser(userInput);
     }
 
     private void ensureUserNotExists(UserInput userInput) {

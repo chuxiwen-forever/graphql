@@ -7,11 +7,13 @@ import com.liu.repository.UserRepository;
 import com.liu.resolver.UserResolver;
 import com.liu.service.UserService;
 import com.liu.vo.UserVO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -41,5 +43,15 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(userInput.getPassword()));
         user = userRepository.addOneUser(user);
         return userResolver.toUserVO(user);
+    }
+
+    @Override
+    public UserVO getUserById(int creatorId) {
+        User userById = userRepository.getUserById(creatorId);
+        if (ObjectUtil.isEmpty(userById)) {
+            log.info("UserService.getUserById ==> userById is empty");
+            return null;
+        }
+        return userResolver.toUserVO(userById);
     }
 }

@@ -42,11 +42,11 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public EventVO addEvent(EventInput eventInput) {
+    public EventVO addEvent(EventInput eventInput, int userId) {
         if (ObjectUtil.isEmpty(eventInput)) {
             throw new RuntimeException("EventService.addEvent => eventInput is empty");
         }
-        User userById = userRepository.getUserById(eventInput.getCreatorId());
+        User userById = userRepository.getUserById(userId);
         if (ObjectUtil.isEmpty(userById)) {
             throw new RuntimeException("EventService.addEvent => Don't have target user");
         }

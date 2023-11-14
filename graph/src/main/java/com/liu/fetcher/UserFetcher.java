@@ -1,5 +1,6 @@
 package com.liu.fetcher;
 
+import com.liu.custom.AuthContext;
 import com.liu.param.UserInput;
 import com.liu.service.EventService;
 import com.liu.service.UserService;
@@ -26,7 +27,8 @@ public class UserFetcher {
     }
 
     @DgsQuery
-    public List<UserVO> users() {
+    public List<UserVO> users(DgsDataFetchingEnvironment dfe) {
+        AuthContext.checkAuthAndReturnContext(dfe);
         return userService.getUserList();
     }
 

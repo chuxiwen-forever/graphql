@@ -1,5 +1,6 @@
 package com.liu.fetcher;
 
+import com.liu.custom.AuthContext;
 import com.liu.param.EventInput;
 import com.liu.service.EventService;
 import com.liu.service.UserService;
@@ -19,13 +20,15 @@ public class EventFetcher {
     private UserService userService;
 
     @DgsQuery
-    public List<EventVO> events() {
+    public List<EventVO> events(DgsDataFetchingEnvironment dfe) {
+        AuthContext.checkAuthAndReturnContext(dfe);
         return eventService.getEventList();
     }
 
     @DgsMutation
-    public EventVO createEvent(@InputArgument(name = "eventInput") EventInput input) {
-        return eventService.addEvent(input);
+    public EventVO createEvent(@InputArgument(name = "eventInput") EventInput input, DgsDataFetchingEnvironment dfe) {
+        AuthContext context = AuthContext.checkAuthAndReturnContext(dfe);
+        return eventService.addEvent(input, Integer.parseInt(context.getUser().getId()));
     }
 
     // parentType是schema.graphqls文件中定义的类型名称

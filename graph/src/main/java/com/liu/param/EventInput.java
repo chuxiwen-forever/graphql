@@ -18,5 +18,4 @@ public class EventInput {
     // 注意：GraphQL.Float => Java.Double
     private Double price;
     private String date;
-    private int creatorId;
 }

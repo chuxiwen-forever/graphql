@@ -2,11 +2,15 @@ package com.liu.service.impl;
 
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjectUtil;
+import com.liu.constants.AppConstants;
 import com.liu.entity.User;
+import com.liu.param.LoginInput;
 import com.liu.param.UserInput;
 import com.liu.repository.UserRepository;
 import com.liu.resolver.UserResolver;
 import com.liu.service.UserService;
+import com.liu.util.TokenUtil;
+import com.liu.vo.AuthData;
 import com.liu.vo.UserVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,5 +72,24 @@ public class UserServiceImpl implements UserService {
             return Collections.emptyList();
         }
         return userList.stream().map(userResolver::toUserVO).collect(Collectors.toList());
+    }
+
+    @Override
+    public AuthData loginByEmail(LoginInput loginInput) {
+        User user = userRepository.getUserByEmail(loginInput.getEmail());
+        if (ObjectUtil.isEmpty(user)) {
+            throw new RuntimeException("不存在该email注册用户");
+        }
+        boolean matches = passwordEncoder.matches(loginInput.getPassword(), user.getPassword());
+        if (!matches) {
+            throw new RuntimeException("用户名或者用户密码错误");
+        }
+        int userId = Integer.parseInt(user.getId());
+        String token = TokenUtil.signToken(userId, AppConstants.TOKEN_VALID_HOUR);
+        return AuthData.builder()
+                .token(token)
+                .tokenExpiration(AppConstants.TOKEN_VALID_HOUR)
+                .userId(userId)
+                .build();
     }
 }

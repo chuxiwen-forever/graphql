@@ -28,4 +28,11 @@ public interface EventRepository {
      * @return event列表
      */
     List<Event> getEventListByCreatorId(int creatorId);
+
+    /**
+     * 根据id查询event
+     * @param id id
+     * @return event
+     */
+    Event getEventById(int id);
 }

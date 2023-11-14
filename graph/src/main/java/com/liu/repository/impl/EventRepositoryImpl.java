@@ -59,4 +59,20 @@ public class EventRepositoryImpl implements EventRepository {
                 .map(eventConverter::toEvent)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public Event getEventById(int id) {
+        if (id == 0) {
+            log.info("EventRepository.getEventById ==> id 不合法");
+            return null;
+        }
+        LambdaQueryWrapper<EventDO> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(EventDO::getId, id);
+        EventDO eventDO = eventMapper.selectOne(wrapper);
+        if (ObjectUtil.isEmpty(eventDO)) {
+            log.info("EventRepository.getEventById ==> event 不存在");
+            return null;
+        }
+        return eventConverter.toEvent(eventDO);
+    }
 }

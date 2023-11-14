@@ -28,10 +28,10 @@ public interface UserService {
     /**
      * 根据用户主键id查询userVO
      *
-     * @param creatorId 主键
+     * @param id 主键
      * @return 用户vo数据
      */
-    UserVO getUserById(int creatorId);
+    UserVO getUserById(int id);
 
     /**
      * 获取用户列表

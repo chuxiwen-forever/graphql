@@ -55,8 +55,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserVO getUserById(int creatorId) {
-        User userById = userRepository.getUserById(creatorId);
+    public UserVO getUserById(int id) {
+        User userById = userRepository.getUserById(id);
         if (ObjectUtil.isEmpty(userById)) {
             log.info("UserService.getUserById ==> userById is empty");
             return new UserVO();

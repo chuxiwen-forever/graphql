@@ -1,5 +1,6 @@
 package com.liu.util;
 
+import cn.hutool.core.util.StrUtil;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -23,6 +24,9 @@ public class TokenUtil {
     }
 
     public static Integer verifyToken(String token) {
+        if (StrUtil.isBlankIfStr(token)) {
+            throw new RuntimeException("TokenUtil.verifyToken ==> 用户token为空");
+        }
         JWTVerifier verifier = JWT.require(algorithm)
                 .withIssuer(ISSUER)
                 .build();

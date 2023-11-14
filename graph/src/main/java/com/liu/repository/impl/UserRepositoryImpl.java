@@ -78,4 +78,14 @@ public class UserRepositoryImpl implements UserRepository {
         return userDOList.stream()
                 .collect(Collectors.toMap(UserDO::getId, userConverter::toUser));
     }
+
+    @Override
+    public List<User> getUserList() {
+        List<UserDO> userDOList = userMapper.selectList(null);
+        if (ArrayUtil.isEmpty(userDOList)) {
+            log.info("UserRepository.getUserList ==> userDOList is empty");
+            return Collections.emptyList();
+        }
+        return userDOList.stream().map(userConverter::toUser).collect(Collectors.toList());
+    }
 }

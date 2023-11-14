@@ -34,4 +34,10 @@ public interface UserRepository {
      * @return k: 用户id v: 用户信息
      */
     Map<Integer,User> selectUsersByIds(Collection<Integer> collection);
+
+    /**
+     * 获取用户列表
+     * @return 用户集合
+     */
+    List<User> getUserList();
 }

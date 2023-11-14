@@ -1,5 +1,6 @@
 package com.liu.service.impl;
 
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.liu.entity.User;
 import com.liu.param.UserInput;
@@ -11,6 +12,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -50,8 +55,18 @@ public class UserServiceImpl implements UserService {
         User userById = userRepository.getUserById(creatorId);
         if (ObjectUtil.isEmpty(userById)) {
             log.info("UserService.getUserById ==> userById is empty");
-            return null;
+            return new UserVO();
         }
         return userResolver.toUserVO(userById);
+    }
+
+    @Override
+    public List<UserVO> getUserList() {
+        List<User> userList = userRepository.getUserList();
+        if (ArrayUtil.isEmpty(userList)) {
+            log.info("UserService.getUserList ==> userList is empty");
+            return Collections.emptyList();
+        }
+        return userList.stream().map(userResolver::toUserVO).collect(Collectors.toList());
     }
 }

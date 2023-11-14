@@ -3,6 +3,8 @@ package com.liu.service;
 import com.liu.param.UserInput;
 import com.liu.vo.UserVO;
 
+import java.util.List;
+
 public interface UserService {
 
     /**
@@ -27,4 +29,11 @@ public interface UserService {
      * @return 用户vo数据
      */
     UserVO getUserById(int creatorId);
+
+    /**
+     * 获取用户列表
+     *
+     * @return 用户集合
+     */
+    List<UserVO> getUserList();
 }

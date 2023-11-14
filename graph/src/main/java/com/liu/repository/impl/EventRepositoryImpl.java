@@ -2,6 +2,7 @@ package com.liu.repository.impl;
 
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjectUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.liu.DO.EventDO;
 import com.liu.converter.EventConverter;
 import com.liu.entity.Event;
@@ -43,5 +44,19 @@ public class EventRepositoryImpl implements EventRepository {
         EventDO eventDO = eventConverter.toEventDO(event);
         eventMapper.insert(eventDO);
         return eventConverter.toEvent(eventDO);
+    }
+
+    @Override
+    public List<Event> getEventListByCreatorId(int creatorId) {
+        LambdaQueryWrapper<EventDO> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(EventDO::getCreatorId, creatorId);
+        List<EventDO> eventDOList = eventMapper.selectList(wrapper);
+        if (ArrayUtil.isEmpty(eventDOList)) {
+            log.info("EventRepository.getEventListByCreatorId ==> eventDOList is empty");
+            return Collections.emptyList();
+        }
+        return eventDOList.stream()
+                .map(eventConverter::toEvent)
+                .collect(Collectors.toList());
     }
 }

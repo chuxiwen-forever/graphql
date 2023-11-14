@@ -20,4 +20,12 @@ public interface EventRepository {
      * @return 填充后的事件对象
      */
     Event insertEvent(Event event);
+
+    /**
+     * 根据事件创建用户id查询event列表
+     *
+     * @param creatorId 创建用户id
+     * @return event列表
+     */
+    List<Event> getEventListByCreatorId(int creatorId);
 }

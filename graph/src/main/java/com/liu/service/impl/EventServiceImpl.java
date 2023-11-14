@@ -54,4 +54,14 @@ public class EventServiceImpl implements EventService {
         Event insertEvent = eventRepository.insertEvent(event);
         return eventResolver.toEventVO(insertEvent);
     }
+
+    @Override
+    public List<EventVO> getEventListByCreatorId(String creatorId) {
+        List<Event> events = eventRepository.getEventListByCreatorId(Integer.parseInt(creatorId));
+        if (ArrayUtil.isEmpty(events)) {
+            log.info("EventService.getEventListByCreatorId ==> events is empty");
+            return Collections.emptyList();
+        }
+        return events.stream().map(eventResolver::toEventVO).collect(Collectors.toList());
+    }
 }

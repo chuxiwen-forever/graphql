@@ -1,12 +1,14 @@
 package com.liu.fetcher;
 
 import com.liu.param.UserInput;
+import com.liu.service.EventService;
 import com.liu.service.UserService;
+import com.liu.vo.EventVO;
 import com.liu.vo.UserVO;
-import com.netflix.graphql.dgs.DgsComponent;
-import com.netflix.graphql.dgs.DgsMutation;
-import com.netflix.graphql.dgs.InputArgument;
+import com.netflix.graphql.dgs.*;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 @DgsComponent
 public class UserFetcher {
@@ -14,11 +16,24 @@ public class UserFetcher {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private EventService eventService;
 
     @DgsMutation
     public UserVO createUser(@InputArgument(name = "userInput") UserInput userInput) {
         ensureUserNotExists(userInput);
         return userService.addUser(userInput);
+    }
+
+    @DgsQuery
+    public List<UserVO> users() {
+        return userService.getUserList();
+    }
+
+    @DgsData(parentType = "User")
+    public List<EventVO> createdEvents(DgsDataFetchingEnvironment dfe) {
+        UserVO userVO = dfe.getSource();
+        return eventService.getEventListByCreatorId(userVO.getId());
     }
 
     private void ensureUserNotExists(UserInput userInput) {

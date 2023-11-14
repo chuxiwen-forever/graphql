@@ -19,4 +19,11 @@ public interface EventService {
      * @return eventVo数据
      */
     EventVO addEvent(EventInput eventInput);
+
+    /**
+     * 根据创建用户id创建event类型
+     * @param creatorId 创建用户id
+     * @return event集合
+     */
+    List<EventVO> getEventListByCreatorId(String creatorId);
 }

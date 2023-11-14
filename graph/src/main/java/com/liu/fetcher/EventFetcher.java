@@ -28,6 +28,7 @@ public class EventFetcher {
         return eventService.addEvent(input);
     }
 
+    // parentType是schema.graphqls文件中定义的类型名称
     @DgsData(parentType = "Event")
     public UserVO creator(DgsDataFetchingEnvironment dfe) {
         EventVO source = dfe.getSource();

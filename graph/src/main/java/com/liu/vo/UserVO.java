@@ -11,4 +11,5 @@ public class UserVO {
     private String email;
     private String password;
     private List<EventVO> createdEvents = new ArrayList<>();
+    private List<BookingVO> bookings = new ArrayList<>();
 }

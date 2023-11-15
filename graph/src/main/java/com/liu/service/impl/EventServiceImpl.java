@@ -51,6 +51,7 @@ public class EventServiceImpl implements EventService {
             throw new RuntimeException("EventService.addEvent => Don't have target user");
         }
         Event event = eventResolver.toEvent(eventInput);
+        event.setCreatorId(userId);
         Event insertEvent = eventRepository.insertEvent(event);
         return eventResolver.toEventVO(insertEvent);
     }

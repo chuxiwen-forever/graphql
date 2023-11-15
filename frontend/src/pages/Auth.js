@@ -2,10 +2,22 @@ import React, {Component} from "react";
 import "./Auth.css"
 
 class AuthPage extends Component {
+
+    // 状态保存数据
+    state = {
+        isLogin: true
+    }
+
     constructor(props) {
         super(props);
         this.emailEl = React.createRef();
         this.passwordEl = React.createRef();
+    }
+
+    switchModeHandler = () => {
+        this.setState((prevState) => {
+            return {isLogin: !prevState.isLogin}
+        })
     }
 
     submitHandler = (event) => {
@@ -20,7 +32,7 @@ class AuthPage extends Component {
         }
 
         const requestBody = {
-            query:`
+            query: `
             mutation{
                 createUser(userInput: {
                     email: "${email}",
@@ -40,17 +52,17 @@ class AuthPage extends Component {
                 "Content-Type": "application/json",
             }
         }).then((res) => {
-                if (res.status !== 200 || res.status !== 201){
-                    throw new Error("Failed!");
-                }
-                return res.json();
-            })
+            if (res.status !== 200 || res.status !== 201) {
+                throw new Error("Failed!");
+            }
+            return res.json();
+        })
             .then((resData) => {
                 console.log(resData)
             })
-            .catch((err) =>{
-            console.log(err)
-        })
+            .catch((err) => {
+                console.log(err)
+            })
     };
 
     render() {
@@ -66,6 +78,9 @@ class AuthPage extends Component {
                 </div>
                 <div className="form-actions">
                     <button type="submit">Submit</button>
+                    <button type="button" onClick={this.submitHandler}>
+                        Switch to {this.state.isLogin ? "SignUp" : "Login"}
+                    </button>
                 </div>
             </form>
         );

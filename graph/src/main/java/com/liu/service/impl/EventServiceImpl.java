@@ -64,4 +64,14 @@ public class EventServiceImpl implements EventService {
         }
         return events.stream().map(eventResolver::toEventVO).collect(Collectors.toList());
     }
+
+    @Override
+    public EventVO getEventById(int id) {
+        Event eventById = eventRepository.getEventById(id);
+        if (ObjectUtil.isEmpty(eventById)) {
+            log.info("不存在主键为{}的event信息", id);
+            return new EventVO();
+        }
+        return eventResolver.toEventVO(eventById);
+    }
 }

@@ -31,8 +31,24 @@ class AuthPage extends Component {
             return;
         }
 
-        const requestBody = {
+        let requestBody = {
             query: `
+                query {
+                    login(loginInput: {
+                        email: "${email}",
+                        password: "${password}"
+                    }){
+                        userId
+                        token
+                        tokenExpiration
+                    }
+                }
+            `
+        };
+
+        if (!this.state.isLogin) {
+            requestBody = {
+                query: `
             mutation{
                 createUser(userInput: {
                     email: "${email}",
@@ -43,7 +59,8 @@ class AuthPage extends Component {
                 }
             }
             `,
-        };
+            };
+        }
 
         fetch("http://localhost:8080/graphql", {
             method: "POST",
@@ -78,7 +95,7 @@ class AuthPage extends Component {
                 </div>
                 <div className="form-actions">
                     <button type="submit">Submit</button>
-                    <button type="button" onClick={this.submitHandler}>
+                    <button type="button" onClick={this.switchModeHandler}>
                         Switch to {this.state.isLogin ? "SignUp" : "Login"}
                     </button>
                 </div>

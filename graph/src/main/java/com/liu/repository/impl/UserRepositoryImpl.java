@@ -16,7 +16,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Repository
@@ -65,18 +64,17 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public Map<Integer, User> selectUsersByIds(Collection<Integer> collection) {
+    public List<User> selectUsersByIds(Collection<Integer> collection) {
         if (ArrayUtil.isEmpty(collection)) {
             log.info("UserRepository.selectUsersByIds => collection is empty");
-            return Collections.emptyMap();
+            return Collections.emptyList();
         }
         List<UserDO> userDOList = userMapper.selectBatchIds(collection);
         if (ArrayUtil.isEmpty(userDOList)) {
             log.info("UserRepository.selectUsersByIds => userDOList is empty");
-            return Collections.emptyMap();
+            return Collections.emptyList();
         }
-        return userDOList.stream()
-                .collect(Collectors.toMap(UserDO::getId, userConverter::toUser));
+        return userDOList.stream().map(userConverter::toUser).collect(Collectors.toList());
     }
 
     @Override

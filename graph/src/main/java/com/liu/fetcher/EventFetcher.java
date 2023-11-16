@@ -7,9 +7,11 @@ import com.liu.service.UserService;
 import com.liu.vo.EventVO;
 import com.liu.vo.UserVO;
 import com.netflix.graphql.dgs.*;
+import org.dataloader.DataLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @DgsComponent
 public class EventFetcher {
@@ -33,8 +35,9 @@ public class EventFetcher {
 
     // parentType是schema.graphqls文件中定义的类型名称
     @DgsData(parentType = "Event")
-    public UserVO creator(DgsDataFetchingEnvironment dfe) {
+    public CompletableFuture<UserVO> creator(DgsDataFetchingEnvironment dfe) {
         EventVO source = dfe.getSource();
-        return userService.getUserById(source.getCreatorId());
+        DataLoader<Integer, UserVO> userVoList = dfe.getDataLoader("userVo");
+        return userVoList.load(source.getCreatorId());
     }
 }

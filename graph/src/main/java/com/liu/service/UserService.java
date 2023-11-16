@@ -5,6 +5,7 @@ import com.liu.param.UserInput;
 import com.liu.vo.AuthData;
 import com.liu.vo.UserVO;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface UserService {
@@ -47,4 +48,12 @@ public interface UserService {
      * @return 验证信息
      */
     AuthData loginByEmail(LoginInput loginInput);
+
+
+    /**
+     * 根据用户id集合查询所有用户数据
+     * @param list 主键id
+     * @return 用户集合
+     */
+    List<UserVO> getAllUserVOListByIds(Collection<Integer> list);
 }

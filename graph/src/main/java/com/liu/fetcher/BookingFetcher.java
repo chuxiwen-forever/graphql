@@ -9,9 +9,11 @@ import com.liu.vo.EventVO;
 import com.liu.vo.UserVO;
 import com.netflix.graphql.dgs.*;
 import lombok.extern.slf4j.Slf4j;
+import org.dataloader.DataLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @DgsComponent
 @Slf4j
@@ -52,9 +54,10 @@ public class BookingFetcher {
     }
 
     @DgsData(parentType = "Booking")
-    public UserVO user(DgsDataFetchingEnvironment dfe) {
+    public CompletableFuture<UserVO> user(DgsDataFetchingEnvironment dfe) {
         BookingVO bookingVO = dfe.getSource();
+        DataLoader<Integer, UserVO> userVo = dfe.getDataLoader("userVo");
         int userId = bookingVO.getUserId();
-        return userService.getUserById(userId);
+        return userVo.load(userId);
     }
 }

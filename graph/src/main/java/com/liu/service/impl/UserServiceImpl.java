@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -91,5 +92,19 @@ public class UserServiceImpl implements UserService {
                 .tokenExpiration(AppConstants.TOKEN_VALID_HOUR)
                 .userId(userId)
                 .build();
+    }
+
+    @Override
+    public List<UserVO> getAllUserVOListByIds(Collection<Integer> list) {
+        if (ArrayUtil.isEmpty(list)) {
+            log.info("UserService.getAllUserVOListByIds ==> list is empty");
+            return Collections.emptyList();
+        }
+        List<User> userList = userRepository.selectUsersByIds(list);
+        if (ArrayUtil.isEmpty(userList)) {
+            log.info("UserService.getAllUserVOListByIds ==> userList is empty");
+            return Collections.emptyList();
+        }
+        return userList.stream().map(userResolver::toUserVO).collect(Collectors.toList());
     }
 }
